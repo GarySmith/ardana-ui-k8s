@@ -36,7 +36,7 @@ if [[ $? -ne 0 ]] ; then
 fi
 
 # apply installation file
-# kubectl apply -n $NAME -f install.yml
+kubectl apply -n $NAME -f install.yml
 
 # open port forwarding
-# kubctl port-forward service/myservice 2209
+kubectl port-forward -n $NAME service/$NAME 2209 9085

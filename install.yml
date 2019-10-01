@@ -4,10 +4,14 @@ metadata:
   name: ardana-installer-ui
 spec:
   ports:
-  - name: http
+  - name: frontend
     protocol: TCP
     port: 2209
     targetPort: 2209
+  - name: backend
+    protocol: TCP
+    port: 9085
+    targetPort: 9085
   selector:
     app: ardana-installer-ui
 ---
@@ -29,4 +33,24 @@ spec:
         image: ardana-installer-ui-ui:latest
         ports:
         - containerPort: 2209
+        imagePullPolicy: Never
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ardana-service
+spec:
+  selector:
+    matchLabels:
+      app: ardana-installer-ui
+  template:
+    metadata:
+      labels:
+        app: ardana-installer-ui
+    spec:
+      containers:
+      - name: ardana-service
+        image: ardana-installer-ui-svc:latest
+        ports:
+        - containerPort: 9085
         imagePullPolicy: Never
