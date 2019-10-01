@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ardana-installer-ui
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 2209
+    targetPort: 2209
+  selector:
+    app: ardana-installer-ui
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ardana-installer-ui
+spec:
+  selector:
+    matchLabels:
+      app: ardana-installer-ui
+  template:
+    metadata:
+      labels:
+        app: ardana-installer-ui
+    spec:
+      containers:
+      - name: ardana-installer-ui
+        image: ardana-installer-ui-ui:latest
+        ports:
+        - containerPort: 2209
+        imagePullPolicy: Never
